@@ -1,0 +1,29 @@
+{
+  "name": "dental-clinic-manager-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent bilingual static product website for Dental Clinic Manager.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "test": "node --test tests/config.test.mjs && playwright test",
+    "test:config": "node --test tests/config.test.mjs",
+    "check:release": "node scripts/check-release.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/cairo": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1"
+  }
+}

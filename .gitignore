@@ -1,0 +1,17 @@
+node_modules/
+.npm-cache/
+dist/
+.astro/
+test-results/
+playwright-report/
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite*
+*.bak
+*.key
+*.pem
+*.log
+.DS_Store
+Thumbs.db

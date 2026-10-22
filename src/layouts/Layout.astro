@@ -1,0 +1,90 @@
+---
+import '@fontsource-variable/cairo';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import Brand from '../components/Brand.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../../site.config.mjs';
+import { ui, route, type Lang, type Page } from '../content/ui';
+interface Props { lang: Lang; page: Page; title: string; description: string; notFound?: boolean; }
+const { lang, page, title, description, notFound = false } = Astro.props;
+const t = ui[lang];
+const otherLang = lang === 'ar' ? 'en' : 'ar';
+const canonical = site.publicUrl && !notFound ? new URL(route(lang, page), site.publicUrl).href : undefined;
+const nav = [route(lang), `${route(lang)}#features`, `${route(lang)}#security`, route(lang, 'privacy'), `${route(lang)}#contact`];
+---
+<!doctype html>
+<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#153f35" />
+    <title>{title} | Dental Clinic Manager</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={site.publicUrl && site.ownerReviewComplete && !notFound ? 'index, follow' : 'noindex, nofollow'} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {site.publicUrl && !notFound && <>
+      <link rel="alternate" hreflang="ar" href={new URL(route('ar', page), site.publicUrl).href} />
+      <link rel="alternate" hreflang="en" href={new URL(route('en', page), site.publicUrl).href} />
+      <link rel="alternate" hreflang="x-default" href={new URL(route('ar', page), site.publicUrl).href} />
+    </>}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dental Clinic Manager" />
+    <meta property="og:title" content={`${title} | Dental Clinic Manager`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === 'ar' ? 'ar_AR' : 'en_US'} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {site.publicUrl && <><meta property="og:image" content={new URL('/social-card.png', site.publicUrl).href} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="Dental Clinic Manager — A clearer view of your clinic." /></>}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      try {
+        // Explicit language URLs always win; only the bare homepage follows a saved preference.
+        if (location.pathname === '/' && !location.search && localStorage.getItem('dcm-language') === 'en') {
+          location.replace('/en' + location.hash);
+        }
+      } catch { /* The site also works with browser storage disabled. */ }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <Brand lang={lang} />
+        <nav class="desktop-nav" aria-label={t.menu}>
+          {nav.slice(0, 4).map((href, i) => <a href={href} aria-current={(i === 0 && page === 'home') || (i === 3 && page === 'privacy') ? 'page' : undefined}>{t.nav[i]}</a>)}
+        </nav>
+        <div class="header-actions">
+          <a class="language-link" href={route(otherLang, page)} lang={otherLang} dir={otherLang === 'ar' ? 'rtl' : 'ltr'} aria-label={t.switchLabel} data-language={otherLang}><Icon name="globe" /><span>{t.switch}</span></a>
+          <a class="button button-small header-contact" href={`${route(lang)}#contact`}>{t.contact}<Icon name="arrow" class="directional" /></a>
+          <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label={t.menu}><span></span><span></span><span></span></button>
+        </div>
+      </div>
+      <nav class="mobile-nav container" id="mobile-nav" aria-label={t.menu} hidden>
+        {nav.map((href, i) => <a href={href}>{t.nav[i]}</a>)}
+      </nav>
+    </header>
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer class="site-footer">
+      <div class="container footer-top"><div><Brand lang={lang} /><p>{t.footerText}</p></div><nav aria-label={lang === 'ar' ? 'روابط أسفل الصفحة' : 'Footer navigation'}>
+        <a href={route(lang)}>{t.nav[0]}</a><a href={route(lang, 'privacy')}>{t.privacy}</a><a href={route(lang, 'terms')}>{t.terms}</a><a href={`${route(lang)}#contact`}>{t.contact}</a>
+      </nav></div>
+      <div class="container footer-bottom"><small>© {new Date().getUTCFullYear()} <bdi>{site.publisherName || site.productName}</bdi>. {t.rights}</small><span><span class="status-dot"></span>{t.development}</span></div>
+    </footer>
+    <script>
+      document.querySelectorAll<HTMLAnchorElement>('[data-language]').forEach(link => {
+        link.addEventListener('click', () => { try { localStorage.setItem('dcm-language', link.dataset.language!); } catch {} });
+      });
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');
+      function closeMenu() { if (toggle && mobileNav) { toggle.setAttribute('aria-expanded', 'false'); mobileNav.hidden = true; } }
+      toggle?.addEventListener('click', () => {
+        if (!mobileNav) return;
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open)); mobileNav.hidden = open;
+      });
+      mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); } });
+      matchMedia('(min-width: 1000px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+    </script>
+  </body>
+</html>

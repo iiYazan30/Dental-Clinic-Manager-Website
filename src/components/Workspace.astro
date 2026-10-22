@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { ui, type Lang } from '../content/ui';
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+---
+<figure class="workspace-figure">
+  <div class="workspace-window" aria-hidden="true">
+    <div class="window-bar"><span class="window-brand"><Icon name="tooth" />Dental Clinic Manager</span><span class="window-dots"><i></i><i></i><i></i></span></div>
+    <div class="workspace-inner">
+      <aside class="workspace-sidebar"><span class="workspace-logo"><Icon name="tooth" /></span>{['window', 'users', 'calendar', 'tooth', 'wallet', 'backup'].map((icon, i) => <span class:list={['sidebar-icon', { selected: i === 3 }]}><Icon name={icon} /></span>)}</aside>
+      <div class="workspace-main">
+        <div class="workspace-heading"><div><small>{t.patientFile} / {t.chart}</small><h3>{t.workspace}</h3></div><span class="secure-dot"><Icon name="lock" /></span></div>
+        <div class="workspace-tabs"><span class="active">{t.chart}</span><span>{t.treatment}</span><span>{t.notes}</span></div>
+        <div class="odontogram"><span class="arch-label">{t.upper}</span><div class="tooth-row">{Array.from({ length: 12 }, (_, i) => <span class:list={['tooth-shape', { highlighted: i === 3 || i === 8 }]}><Icon name="tooth" /></span>)}</div><div class="chart-midline"></div><div class="tooth-row lower-row">{Array.from({ length: 12 }, (_, i) => <span class:list={['tooth-shape', { highlighted: i === 4 }]}><Icon name="tooth" /></span>)}</div><span class="arch-label">{t.lower}</span></div>
+        <div class="workspace-panels">{[t.toothRecord, t.treatment, t.session].map((label, i) => <div class="workspace-panel"><span class="panel-icon"><Icon name={['tooth', 'layers', 'calendar'][i]} /></span><strong>{label}</strong><span class="illustration-line"></span><span class="illustration-line short"></span></div>)}</div>
+        <div class="workspace-bottom"><span><span class="status-dot"></span>{t.demoNote}</span><Icon name="shield" /></div>
+      </div>
+    </div>
+  </div>
+  <div class="floating-label"><span class="floating-icon"><Icon name="shield" /></span><div><strong>{t.local}</strong><small>{lang === 'ar' ? 'على جهاز العيادة' : 'On the clinic’s device'}</small></div></div>
+  <figcaption><span class="caption-line"></span>{t.illustration}</figcaption>
+</figure>

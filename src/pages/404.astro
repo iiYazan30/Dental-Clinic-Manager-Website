@@ -1,0 +1,6 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ui } from '../content/ui';
+const t = ui.ar;
+---
+<Layout lang="ar" page="home" title={t.notFound} description={t.notFoundText} notFound><section class="container not-found"><p class="eyebrow">404</p><h1>{t.notFound}</h1><p>{t.notFoundText}</p><a class="button" href="/">{t.back}</a><div lang="en" dir="ltr"><h2>Page not found</h2><p>This link may have changed.</p><a href="/en">Back to the English homepage</a></div></section></Layout>

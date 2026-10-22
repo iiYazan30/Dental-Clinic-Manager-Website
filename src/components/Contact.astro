@@ -1,0 +1,13 @@
+---
+import { site } from '../../site.config.mjs';
+import { ui, type Lang } from '../content/ui';
+import Icon from './Icon.astro';
+const { lang, compact = false } = Astro.props as { lang: Lang; compact?: boolean };
+const t = ui[lang];
+---
+<div class:list={['contact-methods', { compact }]}>
+  {site.publisherName && <p class="publisher">{site.publisherName}</p>}
+  {site.supportEmail ? <a class="button button-gold" href={`mailto:${site.supportEmail}`}><Icon name="mail" />{t.email}<span class="contact-address" dir="ltr">{site.supportEmail}</span></a> : <p class="contact-pending">{t.contactPending}</p>}
+  {site.phone && <a class="phone-link" href={`tel:${site.phone.replace(/[ ()-]/g, '')}`}>{t.phone}: <bdi>{site.phone}</bdi></a>}
+  {site.socialLinks.length > 0 && <ul class="social-links">{site.socialLinks.map(link => <li><a href={link.url} rel="noopener noreferrer">{link.label}</a></li>)}</ul>}
+</div>

@@ -1,0 +1,9 @@
+---
+import Icon from './Icon.astro';
+import { ui, route, type Lang } from '../content/ui';
+const { lang } = Astro.props as { lang: Lang };
+---
+<a class="brand" href={route(lang)} aria-label="Dental Clinic Manager">
+  <span class="brand-mark"><Icon name="tooth" /></span>
+  <span class="brand-text"><strong>{ui[lang].shortName}</strong><span lang="en" dir="ltr">DENTAL CLINIC MANAGER</span></span>
+</a>

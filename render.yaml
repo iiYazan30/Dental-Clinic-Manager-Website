@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: dental-clinic-manager-website
+    runtime: static
+    rootDir: .
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_VERSION
+        value: 24.15.0
+      - key: ASTRO_TELEMETRY_DISABLED
+        value: "1"
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Frame-Options
+        value: DENY

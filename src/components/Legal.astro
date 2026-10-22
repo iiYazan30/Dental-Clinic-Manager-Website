@@ -1,0 +1,13 @@
+---
+import { ui, route, type Lang } from '../content/ui';
+import { privacy, terms } from '../content/legal';
+import { site } from '../../site.config.mjs';
+import Contact from './Contact.astro';
+import Icon from './Icon.astro';
+const { lang, page } = Astro.props as { lang: Lang; page: 'privacy' | 'terms' };
+const t = ui[lang];
+const sections = (page === 'privacy' ? privacy : terms)[lang];
+const date = new Intl.DateTimeFormat(lang === 'ar' ? 'ar' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${site.policyDate}T00:00:00Z`));
+---
+<section class="legal-hero"><div class="container"><a class="legal-back" href={route(lang)}><Icon name="arrow" class="directional" />{t.back}</a><p class="eyebrow">{t.legalLabel}</p><h1>{t[page]}</h1><p class="legal-intro">{t[page === 'privacy' ? 'privacyIntro' : 'termsIntro']}</p><div class="legal-date">{site.ownerReviewComplete ? t.effective : t.updated}: <time datetime={site.policyDate}>{date}</time></div>{!site.ownerReviewComplete && <p class="draft-notice"><Icon name="file" />{t.draft}</p>}</div></section>
+<div class="container legal-layout"><aside class="legal-toc"><nav aria-label={t.contents}><h2>{t.contents}</h2><ol>{sections.map((section, i) => <li><a href={`#section-${i + 1}`}>{section.title}</a></li>)}</ol></nav></aside><div class="legal-content">{sections.map((section, i) => <section id={`section-${i + 1}`}><span class="legal-section-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p>{paragraph.split(/(https:\/\/www\.googleapis\.com\/auth\/drive\.file)/g).map(part => part.startsWith('https://') ? <code dir="ltr">{part}</code> : part)}</p>)}</section>)}{page === 'privacy' && <section class="legal-sources"><h2>{lang === 'ar' ? 'السياسات والخدمات المشار إليها' : 'Referenced policies and services'}</h2><ul><li><a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a></li><li><a href="https://policies.google.com/privacy">Google Privacy Policy</a></li><li><a href="https://myaccount.google.com/connections">{lang === 'ar' ? 'إدارة اتصالات حساب Google' : 'Manage Google account connections'}</a></li><li><a href="https://render.com/privacy">Render Privacy Policy</a></li></ul></section>}<section class="legal-contact"><h2>{t.legalContact}</h2><Contact lang={lang} compact /><a class="text-link" href={route(lang, page === 'privacy' ? 'terms' : 'privacy')}>{t[page === 'privacy' ? 'terms' : 'privacy']}<Icon name="arrow" class="directional" /></a></section></div></div>

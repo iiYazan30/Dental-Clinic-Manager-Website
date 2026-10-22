@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Home from '../components/Home.astro';
+import Legal from '../components/Legal.astro';
+import { ui, type Lang, type Page } from '../content/ui';
+export function getStaticPaths() {
+  return [
+    { params: { path: undefined }, props: { lang: 'ar', page: 'home' } },
+    { params: { path: 'privacy' }, props: { lang: 'ar', page: 'privacy' } },
+    { params: { path: 'terms' }, props: { lang: 'ar', page: 'terms' } },
+    { params: { path: 'en' }, props: { lang: 'en', page: 'home' } },
+    { params: { path: 'en/privacy' }, props: { lang: 'en', page: 'privacy' } },
+    { params: { path: 'en/terms' }, props: { lang: 'en', page: 'terms' } },
+  ];
+}
+const { lang, page } = Astro.props as { lang: Lang; page: Page };
+const t = ui[lang];
+const title = page === 'home' ? t.tagline : t[page];
+const description = page === 'home' ? t.heroText : t[page === 'privacy' ? 'privacyIntro' : 'termsIntro'];
+---
+<Layout lang={lang} page={page} title={title} description={description}>{page === 'home' ? <Home lang={lang} /> : <Legal lang={lang} page={page} />}</Layout>
