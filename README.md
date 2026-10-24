@@ -1,6 +1,6 @@
 # Dental Clinic Manager — public website
 
-A standalone, Arabic-first product website. Built directly in this repository with Astro, static HTML/CSS, and a small navigation script. No backend, database, login, analytics, or desktop OAuth credentials. The desktop application's files were not accessed.
+A standalone, Arabic-first product website at **https://dentalclinicmanager.page**. Built directly in this repository with Astro, static HTML/CSS, and a small navigation script. No backend, database, login, analytics, or desktop OAuth credentials. The desktop application's files were not accessed.
 
 ## Run locally
 
@@ -32,20 +32,21 @@ Every route is pre-rendered and works on direct navigation and refresh. `/404.ht
 
 ## Owner configuration
 
-Edit **[site.config.mjs](site.config.mjs)**. All publisher, email, optional phone/social, final origin, and policy date settings are there. Empty values are intentional. No dummy mailbox, fake domain, download button, or inquiry form is used. Contact links become real `mailto:` / `tel:` links only when supplied.
+Edit **[site.config.mjs](site.config.mjs)**. All publisher, email, optional phone/social, official origin, and policy date settings are there. The existing owner-supplied name, email, phone, and official domain are preserved. Optional social links remain empty. No dummy mailbox, fake domain, download button, or inquiry form is used. Contact links render as `mailto:` / `tel:` links.
 
-Until the owner has completed **[OWNER-REVIEW.md](docs/OWNER-REVIEW.md)**, legal pages display a draft notice, pages use `noindex, nofollow`, robots disallows crawling, and the sitemap contains no URLs. Supplying a real `publicUrl` creates canonical and language-alternate metadata. Setting `ownerReviewComplete: true` after technical/legal approval enables indexing and the six-page sitemap. Rebuild after any configuration change. `noindex` does not make a deployed site private.
+The owner explicitly approved both languages' Privacy Policy and Terms on **24 October 2026**. `ownerReviewComplete: true` and `policyDate: '2026-10-24'` enable final effective-date labels, indexing for the six public pages, allowing robots, and the complete sitemap. Canonical/hreflang/Open Graph URLs use the official domain. The 404 page intentionally remains noindex. See the [approval record](docs/OWNER-REVIEW.md). Rebuild after configuration changes.
 
 ```sh
-npm run check:release
+npm run check
 ```
 
-This intentionally fails until required owner information and approval are provided; it does not prevent local build or preview. It checks configuration only, not legal compliance or live domain ownership.
+`check` reuses the release configuration validation and configuration tests. It does not claim TypeScript type checking, legal certification, Google approval, or live domain ownership verification. `check:release` remains available separately.
 
 ## Checks
 
 ```sh
 npx playwright install chromium
+npm run check
 npm run build
 npm test
 ```
@@ -58,7 +59,7 @@ Tests cover configuration validation, six direct/refresh routes on desktop and m
 - `src/layouts/Layout.astro` — metadata, shared header/footer, language/menu behavior
 - `src/components/` — homepage, legal page, contact, brand, icons, original workspace illustration
 - `src/content/ui.ts` — Arabic/English UI and marketing copy
-- `src/content/legal.ts` — bilingual privacy and terms drafts
+- `src/content/legal.ts` — owner-approved bilingual privacy and terms
 - `src/styles/global.css` — responsive design, RTL, focus and reduced-motion styles
 - `public/` — original favicon and social preview assets; never put confidential files here
 - `tests/`, `playwright.config.ts` — configuration and browser checks
@@ -67,8 +68,8 @@ Tests cover configuration validation, six direct/refresh routes on desktop and m
 
 ## Deployment and OAuth
 
-Follow **[RENDER-DEPLOYMENT.md](docs/RENDER-DEPLOYMENT.md)** and **[GOOGLE-OAUTH-CHECKLIST.md](docs/GOOGLE-OAUTH-CHECKLIST.md)**. This repository is initialized independently on branch `main`, with no commit, remote, push, or deployment performed. You control those steps.
+The owner reports deployment on Render, successful Search Console domain verification, and production OAuth configuration. See the current **[production branding review](docs/OAUTH-PRODUCTION-REVIEW.md)** and **[OAuth checklist](docs/GOOGLE-OAUTH-CHECKLIST.md)** before submission. The [deployment guide](docs/RENDER-DEPLOYMENT.md) remains available as a reference. The 23 October review performs no commit, push, deployment, or Google Cloud change; the owner controls publication.
 
 ## Content and assets
 
-Product capabilities are taken solely from the supplied product description, not verified against private application source. Artwork is original SVG/CSS and contains no patient information. It is visibly labeled as illustrative. Cairo and Inter are self-hosted using Fontsource packages; upstream font license notices are included in `public/licenses/`. Product and legal copy require the owner review described above. No third-party endorsement is implied.
+General product capabilities use the supplied product description. Technical privacy disclosures use the owner's supplied verified desktop source-audit and revocation-update findings; this website task did not access desktop/private source or data. The owner approved the bilingual legal text and reports successful manual revocation/reconnect testing against Development. This does not establish Production testing or Google approval. The software remains in development. Artwork is original SVG/CSS and contains no patient information. It is visibly labeled as illustrative. Cairo and Inter are self-hosted using Fontsource packages; upstream font license notices are included in `public/licenses/`. No third-party endorsement is implied.

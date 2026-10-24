@@ -1,56 +1,62 @@
-# Outstanding owner information and review
+# Owner approval and publication record ? 24 October 2026
 
-This site was built solely from the supplied product description. **No desktop source, configuration, database, credentials, backups, or private assets were accessed.** Features in that description are represented as described, not independently audited. This report belongs to the project handoff and is not included in the published static output.
+**The owner explicitly approved the current Arabic and English Privacy Policy and Terms of Service on 24 October 2026 and authorized final publication preparation.** The effective date is **2026-10-24**, and ownerReviewComplete is now **true**. Draft-only wording was removed without adding commercial, jurisdictional, certification, or data-handling promises.
 
-## Information only the owner can supply
+The owner also reports successful manual Google OAuth revocation and reconnect testing against the existing **Development** project. This is recorded as Development evidence only; no Production-project test result or Google approval is inferred. The website task did not access desktop code, clinic data, credentials, or Google settings.
 
-| Item | Where it goes | Required for release |
+## Approved public settings
+
+| Setting | Final value |
+| --- | --- |
+| Product | Dental Clinic Manager |
+| Publisher | Yazan Mallah |
+| Support email | dentalclinicmanager7@gmail.com |
+| Optional telephone | +970598967653 |
+| Official origin | https://dentalclinicmanager.page |
+| Effective date | 24 October 2026 in both languages |
+| Owner review | Complete, explicitly authorized |
+
+Contact values and the existing brand/design were preserved. This task checks rendered mailto/tel links but does not send mail or place calls. Routine mailbox monitoring remains the publisher's responsibility.
+
+## Finalization scope
+
+- Remove obsolete legal-draft banners, body passages awaiting approval, and outdated claims that live revocation testing is entirely pending.
+- Preserve technical disclosures below and the application's in-development status.
+- Retain the approved informational terms framework: no prices, final software-license duration, warranties, refund policy, liability cap, or jurisdiction are invented by this website. Applicable commercial agreements remain separate.
+- Enable indexing for the six public routes, official-domain canonical/hreflang/Open Graph metadata, allowing robots, and a six-route sitemap. Keep 404 noindex intentionally.
+- No website publication blocker remains on the supplied facts once final automated checks pass. Owner approval is not independent legal certification or Google verification.
+
+## A. Technical facts supplied as verified — reflected in both languages
+
+The following previous technical gaps are closed at the source-audit level. Do not request token values, keys, private files, or a repeat desktop inspection to substantiate them here.
+
+| Topic | Supplied verified fact | Public disclosure |
 | --- | --- | --- |
-| Public publisher / business name | `site.config.mjs` → `publisherName` | Yes |
-| Monitored public support and privacy email | `supportEmail` | Yes |
-| Purchased domain and final HTTPS origin | `publicUrl` | Yes for final branding |
-| Approved policy effective date | `policyDate` | Yes |
-| Optional public telephone | `phone` | No |
-| Optional official social links | `socialLinks` (`{ label, url }`) | No |
+| Scope and account data | Only `drive.file`; stable Drive account identifier, email when supplied, available quota; no Gmail/Contacts/Calendar/full Drive/photos/passwords requested | Privacy §§2, 4 |
+| OAuth and tokens | System browser, loopback, PKCE S256, state; access tokens temporarily in Rust memory, refresh tokens encrypted with current-user DPAPI, protected local state; direct Google communication | Privacy §5; token storage is no longer described as unknown |
+| Backup encryption | Locally created .dcb files; clinical database/attachment content encrypted/authenticated with XChaCha20-Poly1305 and derived keys; clinic-owned Drive folder | Privacy §§3–4 |
+| Readable backup metadata | Filenames, times, sizes, app/file identifiers, hashes and certain headers readable; no patient names/plaintext clinical records in upload metadata | Privacy §3; no all-bytes/all-metadata encryption claim |
+| Automatic creation | Off by default; open app only, eligible daily launch or clinic-local time; catch-up creates current copy, not missed history; offline local creation, bounded upload retries/manual retry | Privacy §4, terms §5, homepage |
+| Managed retention | Default target 7; choices 1/3/7/14/30; not a hard maximum; pending/failed copies may remain; changing setting need not immediately clean up; manual exports excluded | Privacy §8, terms §5, homepage FAQ |
+| Permanent cloud deletion | After verified successful upload, older eligible clinic backups can be permanently deleted with Drive delete API, bypassing Trash | Privacy §8 and terms §5 prominently distinguish permanent deletion |
+| Revocation update | Attempt remote HTTPS revocation; remove local credentials after success; recognized invalid-token outcome does not prove all grants revoked; retain on failure/timeout with Retry/Cancel/confirmed local-only fallback | Privacy §8, terms §6 |
+| Disconnect limits | Local-only does not revoke Google; remote revocation may affect same-account/project installations; no deletion of records/local/cloud backups; enabled local daily schedule preserved | Privacy §8, terms §6 |
+| Restore/key limits | Another device/profile normally needs compatible .dcb + applicable offline Recovery Key; Google grant is insufficient; replaces current data; loss of both key sources can prevent recovery; no publisher escrow identified | Privacy §9, terms §5, homepage |
+| External communication | Direct Google OAuth/Drive; no publisher patient-data backend/token relay/backup server, ad SDK, tracking, auto crash uploader, or routine plaintext record upload identified | Privacy §§5, 7; observations are limited to the audited source |
+| Local file limits | SQLCipher, encrypted attachment containers, readable technical metadata; temporary decrypted previews may leave remnants after interrupted/failed cleanup; original source files outside vault remain user responsibility | Privacy §3; homepage security/FAQ and terms §5 |
+| Development/Production projects | App-specific authorization/private metadata may prevent Production discovering Development backups; project changes do not delete files or invalidate encryption | Privacy §4, terms §6; no seamless migration promise |
 
-These are empty rather than fictional. A missing email displays a clear contact-information state, not a dummy clickable address. Set all mandatory values and finish the review below before setting `ownerReviewComplete: true`. Approval is an owner declaration, not an automated certification.
+## Publication steps for the owner
 
-## Technical facts requiring confirmation by the product owner
+1. Review the final local changes and verification results in VERIFICATION.md.
+2. Run npm run check, npm run build, and npm test against the reviewed revision.
+3. Commit and push the website source using your own workflow, then deploy that exact revision on Render. The agent performs none of these actions.
+4. Check all six public URLs, effective dates, real contact links, official-domain canonical/hreflang/Open Graph metadata, robots.txt, sitemap.xml, and the absence of draft text on the deployed site.
+5. Check the existing Google Branding, Authorized domains, audience/publishing state, and verification-center requests before submission. No settings are changed by this task.
 
-Use documentation or a separate authorized review of the installed/released application. Do not copy private data into this website repository.
+## Limits retained in the handoff
 
-| Topic | Current wording / treatment | Required decision |
-| --- | --- | --- |
-| Product availability | “In development”; no download, pricing, sales, or release claim | Confirm before changing availability wording |
-| Feature list | All nine groups supplied in the brief | Confirm these exist in the version being presented; remove anything unimplemented |
-| Local storage | SQLCipher database and encrypted attachments, per brief | Confirm exact coverage and any unencrypted metadata/export exceptions |
-| Google scope | `drive.file` per brief | Confirm actual requested scopes; disclose any others before adding them |
-| Google account details | Connection display data and backup metadata, without invented profile fields | Confirm exact account fields accessed, whether retained locally, and their purpose |
-| Token storage | Policy §5 deliberately does not claim DPAPI, a vault, or a particular protection mechanism | Confirm storage location, protection, refresh/revocation lifecycle, cleanup, and any nonlocal processing; replace that caveat with accurate specifics |
-| Backup operations | Create/upload/list/find/download/manage app backups, per brief | Confirm deletion controls, app-created file selection, metadata, and any folder access |
-| Backup retention | Privacy §8 avoids an invented default/count/schedule | Supply actual configurable defaults/ranges and automatic cleanup conditions; document local vs cloud behavior separately |
-| Disconnect and deletion | Explicitly does not promise automatic deletion of old backups | Confirm disconnect cleanup of credentials and uploaded files, revocation behavior, trash behavior, and available manual deletion steps |
-| Automatic backups | Daily while application is running, per brief | Confirm scheduling, network prerequisites, failure feedback, and retention interactions |
-| Recovery Key | Only supported scenarios, no guaranteed rescue of lost keys | Confirm requirements, device-migration scenarios, compatibility, overwrite behavior, and limitations |
-| Developer access / transfers | No routine publisher access or developer record backend is claimed | Confirm any crash reports, telemetry, support uploads, network services, or human access; disclose if actually present |
-| Website hosting | Intended Render static hosting; locally served fonts and assets | Confirm final hosting and email providers; revise policy if services change |
-
-## Legal and commercial decisions
-
-- Confirm the publisher's legal identity and the roles of publisher and clinic in the relevant jurisdictions. This draft makes no unverified statutory compliance or certification claim.
-- Review privacy and terms in both languages for equivalent meaning, lawful patient-data processing, actual rights/contact procedures, and notices/consent required within the application.
-- Approve the Google data purposes and Limited Use commitment in privacy §6. Check the implementation and any human-access or transfer exceptions against Google's current policy. The public draft is not proof of compliance.
-- Replace “draft” / “not confirmed” passages in privacy §§1, 5, 8 and 12 and terms §§1, 3, 10–12 with approved accurate final provisions. Switching the flag hides the general draft banner; **it does not rewrite the legal prose**.
-- Finalize license scope/duration, prices, device limits, renewal, refund arrangements, warranty/support terms, liability allocation, and any governing law/dispute procedure in the appropriate final agreement. None are invented here. Do not imply that the generic draft terms establish those commercial details.
-- Confirm an effective date and an appropriate policy/terms update notification process. Update both translations together.
-- Have qualified counsel review the final legal text where appropriate. No legal review or Google approval is claimed by this build.
-
-## Finish
-
-1. Update the relevant bilingual copy in `src/content/ui.ts` and `src/content/legal.ts` with confirmed information.
-2. Complete `site.config.mjs` and set `ownerReviewComplete` only after approval.
-3. Run `npm run check:release`, `npm run build`, and `npm test`.
-4. Review desktop/mobile and Arabic/English again. Confirm real contact links.
-5. Publish and complete the separate live-domain/OAuth steps yourself.
-
-No owner decision is needed to run the local draft preview.
+- Manual revocation/reconnect success is owner-reported for Development only. Production behavior, cross-installation effects, and every error path were not independently tested here; no contrary public claim is made.
+- Existing Search Console/Cloud configuration and earlier live-site observations are owner-reported or historical. No new live-site audit, mailbox-delivery test, or Google-console inspection is part of this release preparation.
+- Confirm that the desktop version distributed to users matches the approved technical disclosures. This is an operational release responsibility, not a new legal-page approval gate.
+- No commits, pushes, deployments, installers, desktop modifications, or private-file access were performed.

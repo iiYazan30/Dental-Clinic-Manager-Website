@@ -10,6 +10,7 @@
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1",
+    "check": "npm run check:release && npm run test:config",
     "test": "node --test tests/config.test.mjs && playwright test",
     "test:config": "node --test tests/config.test.mjs",
     "check:release": "node scripts/check-release.mjs"

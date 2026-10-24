@@ -1,6 +1,6 @@
 # Deploy the standalone site on Render
 
-Prepared 22 October 2026. No deployment has been performed. Configuration reflects [Render's Astro static-site guide](https://render.com/docs/deploy-astro) and [Blueprint reference](https://render.com/docs/blueprint-spec); confirm current dashboard labels when deploying.
+Initial guide prepared 22 October 2026. **Update, 23 October:** the owner has deployed on Render at **https://dentalclinicmanager.page** and reports successful Search Console verification. Initial setup instructions below are a reference, not a request to repeat completed steps. For the remaining publication and approval work, use [OAUTH-PRODUCTION-REVIEW.md](OAUTH-PRODUCTION-REVIEW.md). This review performs no deployment. Configuration reflects [Render's Astro static-site guide](https://render.com/docs/deploy-astro) and [Blueprint reference](https://render.com/docs/blueprint-spec); confirm current dashboard labels when deploying.
 
 ## 1. Review locally
 
@@ -14,7 +14,7 @@ On restricted Windows PowerShell, use `npm.cmd` / `npx.cmd`. `$env:ASTRO_TELEMET
 
 ## 2. Publish only this repository yourself
 
-This folder already contains its own empty `.git` repository, on `main`. There is no nested `website/` folder and no dependency on the desktop repository.
+This folder contains its own independent `.git` repository, on `main`. There is no nested `website/` folder and no dependency on the desktop repository. The owner controls its commits, remotes, and deployments.
 
 1. Review `git status --short` and the source files. Keep `.gitignore` in place.
 2. Do not add secrets, `.env` files, real screenshots, tokens, Recovery Keys, clinical records, attachments, databases, or backup files. `.gitignore` is a convenience, not a guarantee against accidental inclusion.

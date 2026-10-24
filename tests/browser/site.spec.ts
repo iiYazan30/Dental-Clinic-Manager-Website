@@ -17,6 +17,37 @@ for (const path of routes) {
     await expect(page.locator('h1')).toBeVisible();
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /\S/);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', site.ownerReviewComplete && site.publicUrl ? 'index, follow' : 'noindex, nofollow');
+    if (site.publicUrl) {
+      const canonical = new URL(path, site.publicUrl).href;
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', canonical);
+      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical);
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${site.publicUrl}/social-card.png`);
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(3);
+      const alternates = await page.locator('link[hreflang]').evaluateAll(links => links.map(link => link.getAttribute('href')));
+      expect(alternates.every(href => href && new URL(href).origin === site.publicUrl)).toBe(true);
+      expect(await page.content()).not.toContain('onrender.com');
+    }
+    if (site.supportEmail) await expect(page.locator(`a[href="mailto:${site.supportEmail}"]`)).toBeVisible();
+    if (site.phone) await expect(page.locator(`a[href="tel:${site.phone.replace(/[ ()-]/g, '')}"]`)).toBeVisible();
+    if (path.includes('privacy') || path.includes('terms')) {
+      await expect(page.locator('.draft-notice')).toHaveCount(site.ownerReviewComplete ? 0 : 1);
+      await expect(page.locator('time')).toHaveAttribute('datetime', site.policyDate);
+      if (site.ownerReviewComplete) {
+        await expect(page.locator('.legal-content')).not.toContainText(/\bdraft\b|مسودة|المسودة/i);
+        await expect(page.locator('time')).toHaveText(path.startsWith('/en') ? '24 October 2026' : /24.*2026/);
+      }
+    }
+    if (path.includes('privacy')) {
+      const content = page.locator('.legal-content');
+      for (const disclosure of ['drive.file', 'PKCE S256', 'DPAPI', 'XChaCha20-Poly1305', 'Dental Clinic Manager Backups', '.dcb']) {
+        await expect(content).toContainText(disclosure);
+      }
+      const english = path.startsWith('/en');
+      await expect(page.locator('#section-8')).toContainText(english ? 'without moving them to Trash' : 'دون نقلها إلى سلة المهملات');
+      await expect(page.locator('#section-8')).toContainText(english ? 'without revoking permissions on Google’s servers' : 'دون إلغاء الصلاحيات على خوادم Google');
+      await expect(page.locator('#section-8')).toContainText(english ? 'outcome depends on the revocation response' : 'تعتمد النتيجة على استجابة الإلغاء');
+      await expect(page.locator('#section-3')).toContainText(english ? 'does not cover every backup byte' : 'لا يشمل التشفير كل بايت');
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     expect(accessibility.violations.map(item => ({ id: item.id, nodes: item.nodes.map(node => node.target) }))).toEqual([]);
@@ -118,7 +149,10 @@ test('crawl endpoints do not publish placeholder domains', async ({ request }) =
     expect(await robots.text()).toContain('Disallow: /');
     expect(await sitemap.text()).not.toContain('<loc>');
   } else {
-    expect(await sitemap.text()).toContain(site.publicUrl);
+    expect(await robots.text()).toBe(`User-agent: *\nAllow: /\nSitemap: ${site.publicUrl}/sitemap.xml\n`);
+    const text = await sitemap.text();
+    const locations = [...text.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+    expect(locations).toEqual(routes.map(path => new URL(path, site.publicUrl).href));
   }
 });
 

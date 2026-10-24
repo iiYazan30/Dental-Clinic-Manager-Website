@@ -2,6 +2,10 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { site, validateSite } from '../site.config.mjs';
 
+test('the official production origin is configured', () => {
+  assert.equal(site.publicUrl, 'https://dentalclinicmanager.page');
+});
+
 test('empty owner settings support a non-indexed preview', () => {
   assert.equal(validateSite({ ...site, publicUrl: '', publisherName: '', supportEmail: '', ownerReviewComplete: false }).publicUrl, '');
 });

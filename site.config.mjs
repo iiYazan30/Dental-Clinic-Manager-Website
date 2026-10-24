@@ -1,13 +1,13 @@
 // Public website settings only. Never place desktop credentials or clinic data here.
 export const site = {
   productName: 'Dental Clinic Manager',
-  publisherName: '', // TODO owner: public business / publisher name
-  supportEmail: '', // TODO owner: monitored public support address
-  phone: '', // TODO owner: optional international phone number
-  socialLinks: [], // TODO owner: optional { label, url } entries
-  publicUrl: '', // TODO owner: final HTTPS origin, without a path
-  policyDate: '2026-10-22', // Draft revision date; set to approved effective date before publication.
-  ownerReviewComplete: false, // Set only after completing docs/OWNER-REVIEW.md.
+  publisherName: 'Yazan Mallah', // Owner-approved public publisher name.
+  supportEmail: 'dentalclinicmanager7@gmail.com', // Owner-approved public support contact.
+  phone: '+970598967653', // Owner-supplied optional public telephone.
+  socialLinks: [], // Optional { label, url } entries; none supplied.
+  publicUrl: 'https://dentalclinicmanager.page', // Official production origin.
+  policyDate: '2026-10-24', // Owner-approved effective date for both legal pages.
+  ownerReviewComplete: true, // Explicit owner approval recorded in docs/OWNER-REVIEW.md.
 };
 
 export function validateSite(config) {
